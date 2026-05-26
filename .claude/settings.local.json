@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash *)",
+      "Bash(node -e ' *)",
+      "WebSearch",
+      "Bash(npx skills *)",
+      "Bash(npm install *)",
+      "Bash(vision-support init *)",
+      "Bash(vision-support *)",
+      "Bash(pip install *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

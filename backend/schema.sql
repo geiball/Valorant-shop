@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS skins (
   name VARCHAR(100) NOT NULL,
   weapon VARCHAR(50) NOT NULL,
   price INT NOT NULL,
-  rarity ENUM('common','rare','epic','legendary') NOT NULL DEFAULT 'common',
+  rarity ENUM('select','deluxe','premium','exclusive','ultra') NOT NULL DEFAULT 'select',
   popularity INT DEFAULT 0,
   image_url VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -8,13 +8,19 @@
       <span class="countdown-block">{{ hours }}时</span>
       <span class="countdown-block">{{ minutes }}分</span>
       <span class="countdown-block">{{ seconds }}秒</span>
-      <span class="refresh-icon">&#x21bb;</span>
+      <span class="refresh-icon" @click="$emit('refresh')" :class="{ spinning: loading }">&#x21bb;</span>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+
+defineProps({
+  loading: { type: Boolean, default: false },
+});
+
+defineEmits(['refresh']);
 
 const hours = ref(15);
 const minutes = ref(56);
@@ -83,5 +89,23 @@ onUnmounted(() => clearInterval(timer));
   border-radius: 3px;
 }
 
-.refresh-icon { margin-left: 4px; font-size: 14px; }
+.refresh-icon {
+  margin-left: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.refresh-icon:hover {
+  color: #ff4655;
+}
+
+.refresh-icon.spinning {
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <TopNav />
-    <CountdownBar />
+    <CountdownBar :loading="loading" @refresh="openStore" />
     <div class="cards-container">
       <StoreCard
         v-for="(skin, i) in cards"
@@ -10,29 +10,21 @@
         :generation="generation"
       />
     </div>
-    <ActionButton
-      :revealed="allRevealed"
-      :loading="loading"
-      @open="openStore"
-    />
     <BottomNav />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import TopNav from './components/TopNav.vue';
 import CountdownBar from './components/CountdownBar.vue';
 import StoreCard from './components/StoreCard.vue';
-import ActionButton from './components/ActionButton.vue';
 import BottomNav from './components/BottomNav.vue';
 
 const loading = ref(false);
 const cards = ref([{}, {}, {}, {}]);
 const generation = ref(0);
-
-const allRevealed = computed(() => generation.value > 0);
 
 async function fetchSkins() {
   const res = await axios.get('http://localhost:3000/api/store/random');

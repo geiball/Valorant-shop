@@ -1,0 +1,29 @@
+node_modules/
+dist/
+.env
+*.db
+*.db-shm
+*.db-wal
+
+# Test artifacts
+screenshot_*.png
+cards_section.png
+*.mp4
+*.jpg
+frames/
+tmp_frames/
+tool-results/node_modules/
+
+# IDE / tools
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Superpowers
+.superpowers/
+.claude/

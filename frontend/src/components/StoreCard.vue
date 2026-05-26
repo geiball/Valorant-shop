@@ -1,20 +1,19 @@
 <template>
   <div class="store-card" :class="{ revealed }">
-    <img
-      v-if="!revealed"
-      src="/assets/card_unopened_1.png"
-      alt="未开启"
-      class="card-bg"
-    />
-    <div v-else class="card-revealed">
-      <img :src="skin.image_url" :alt="skin.name" class="skin-img" />
-      <div class="card-info">
-        <span class="skin-name">{{ skin.name }}</span>
-        <span class="skin-popularity">{{ formatPopularity(skin.popularity) }}人想要</span>
-        <span class="skin-price">
-          <span class="rarity-icon" :class="skin.rarity"></span>
-          {{ skin.price }} VP
-        </span>
+    <div class="card-inner" :style="{ transitionDelay: delay + 's' }">
+      <div class="card-front">
+        <img src="/assets/card_unopened_1.png" alt="?" class="card-bg" />
+      </div>
+      <div class="card-back">
+        <img :src="skin.image_url" :alt="skin.name" class="skin-img" />
+        <div class="card-info">
+          <span class="skin-name">{{ skin.name }}</span>
+          <span class="skin-popularity">{{ formatPopularity(skin.popularity) }}人想要</span>
+          <span class="skin-price">
+            <span class="rarity-icon" :class="skin.rarity"></span>
+            {{ skin.price }} VP
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -24,6 +23,7 @@
 defineProps({
   revealed: { type: Boolean, default: false },
   skin: { type: Object, default: () => ({}) },
+  delay: { type: Number, default: 0 },
 });
 
 function formatPopularity(n) {
@@ -35,21 +35,43 @@ function formatPopularity(n) {
 <style scoped>
 .store-card {
   width: 100%;
+  margin-bottom: 10px;
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.store-card.revealed .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  backface-visibility: hidden;
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 10px;
+}
+
+.card-front {
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateY(180deg);
 }
 
 .card-bg {
   width: 100%;
   display: block;
-}
-
-.card-revealed {
-  position: relative;
-  background: linear-gradient(135deg, #1a1a2e, #0d1b3e);
-  border-radius: 12px;
-  overflow: hidden;
 }
 
 .skin-img {

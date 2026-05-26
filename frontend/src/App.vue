@@ -4,10 +4,11 @@
     <CountdownBar />
     <div class="cards-container">
       <StoreCard
-        v-for="(skin, i) in skins"
+        v-for="(skin, i) in cards"
         :key="i"
         :revealed="revealed"
         :skin="skin"
+        :delay="i * 0.12"
       />
     </div>
     <ActionButton
@@ -30,13 +31,13 @@ import BottomNav from './components/BottomNav.vue';
 
 const revealed = ref(false);
 const loading = ref(false);
-const skins = ref([]);
+const cards = ref([{}, {}, {}, {}]);
 
 async function openStore() {
   loading.value = true;
   try {
     const res = await axios.get('http://localhost:3000/api/store/random');
-    skins.value = res.data.skins;
+    cards.value = res.data.skins;
     revealed.value = true;
   } catch (err) {
     console.error('Failed to fetch store:', err);

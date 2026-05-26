@@ -1,5 +1,5 @@
 <template>
-  <div class="store-card" :class="{ revealed }">
+  <div class="store-card" :class="{ revealed: isRevealed }" @click="flip">
     <div class="card-inner" :style="{ transitionDelay: delay + 's' }">
       <div class="card-front">
         <img src="/assets/card_unopened_1.png" alt="?" class="card-bg" />
@@ -20,11 +20,25 @@
 </template>
 
 <script setup>
-defineProps({
-  revealed: { type: Boolean, default: false },
+import { ref, watch } from 'vue';
+
+const props = defineProps({
   skin: { type: Object, default: () => ({}) },
+  generation: { type: Number, default: 0 },
   delay: { type: Number, default: 0 },
 });
+
+const isRevealed = ref(false);
+
+watch(() => props.generation, () => {
+  isRevealed.value = false;
+});
+
+function flip() {
+  if (!isRevealed.value && props.skin.id) {
+    isRevealed.value = true;
+  }
+}
 
 function formatPopularity(n) {
   if (n >= 10000) return (n / 10000).toFixed(1) + '万';
@@ -37,6 +51,7 @@ function formatPopularity(n) {
   width: 100%;
   margin-bottom: 10px;
   perspective: 1000px;
+  cursor: pointer;
 }
 
 .card-inner {

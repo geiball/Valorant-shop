@@ -6,13 +6,13 @@
       <StoreCard
         v-for="(skin, i) in cards"
         :key="i"
-        :revealed="revealed"
         :skin="skin"
+        :generation="generation"
         :delay="i * 0.12"
       />
     </div>
     <ActionButton
-      :revealed="revealed"
+      :revealed="allRevealed"
       :loading="loading"
       @open="openStore"
     />
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import TopNav from './components/TopNav.vue';
 import CountdownBar from './components/CountdownBar.vue';
@@ -29,16 +29,24 @@ import StoreCard from './components/StoreCard.vue';
 import ActionButton from './components/ActionButton.vue';
 import BottomNav from './components/BottomNav.vue';
 
-const revealed = ref(false);
 const loading = ref(false);
 const cards = ref([{}, {}, {}, {}]);
+const generation = ref(0);
+
+const allRevealed = computed(() => generation.value > 0);
+
+async function fetchSkins() {
+  const res = await axios.get('http://localhost:3000/api/store/random');
+  cards.value = res.data.skins;
+}
+
+onMounted(() => fetchSkins());
 
 async function openStore() {
   loading.value = true;
   try {
-    const res = await axios.get('http://localhost:3000/api/store/random');
-    cards.value = res.data.skins;
-    revealed.value = true;
+    await fetchSkins();
+    generation.value++;
   } catch (err) {
     console.error('Failed to fetch store:', err);
   } finally {

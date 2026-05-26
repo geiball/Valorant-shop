@@ -15,6 +15,7 @@
           </span>
         </div>
       </div>
+      <div class="shine"></div>
     </div>
   </div>
 </template>
@@ -50,19 +51,19 @@ function formatPopularity(n) {
 .store-card {
   width: 100%;
   margin-bottom: 10px;
-  perspective: 1000px;
+  perspective: 1200px;
   cursor: pointer;
 }
 
 .card-inner {
   position: relative;
   width: 100%;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-style: preserve-3d;
 }
 
 .store-card.revealed .card-inner {
-  transform: rotateY(180deg);
+  transform: rotateY(-180deg);
 }
 
 .card-front,
@@ -142,5 +143,71 @@ function formatPopularity(n) {
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-bottom: 12px solid #9b59b6;
+}
+
+/* Glow flash at center during flip */
+.card-inner::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.store-card.revealed .card-inner::after {
+  animation: glow-flash 0.45s ease-out forwards;
+}
+
+@keyframes glow-flash {
+  0% { width: 0; height: 0; opacity: 1; }
+  40% { width: 120%; height: 120%; opacity: 0.7; }
+  100% { width: 200%; height: 200%; opacity: 0; }
+}
+
+/* Shine sweep */
+.shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  z-index: 5;
+}
+
+.store-card.revealed .shine {
+  opacity: 1;
+}
+
+.shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 40%,
+    rgba(255, 255, 255, 0.35) 50%,
+    rgba(255, 255, 255, 0.08) 60%,
+    transparent 100%
+  );
+  animation: shine-sweep 0.5s ease-out forwards;
+}
+
+@keyframes shine-sweep {
+  from { left: -80%; }
+  to { left: 120%; }
 }
 </style>

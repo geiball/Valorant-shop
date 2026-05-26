@@ -37,7 +37,9 @@
       "Bash(pkill -f \"node server\")",
       "Bash(pkill -f \"node.*server\")",
       "Bash(netstat -ano)",
-      "Bash(taskkill //PID 19320 //F)"
+      "Bash(taskkill //PID 19320 //F)",
+      "WebFetch(domain:www.bilibili.com)",
+      "Bash(python3 *)"
     ]
   }
 }

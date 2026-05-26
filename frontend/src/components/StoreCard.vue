@@ -80,6 +80,7 @@ function formatPopularity(n) {
 .card-inner {
   display: grid;
   width: 100%;
+  aspect-ratio: 1280 / 420;
   transition: transform 0.5s ease;
   transform-style: preserve-3d;
 }
@@ -94,6 +95,7 @@ function formatPopularity(n) {
   backface-visibility: hidden;
   border-radius: 12px;
   overflow: hidden;
+  contain: paint;
 }
 
 .card-front {
@@ -102,13 +104,16 @@ function formatPopularity(n) {
 
 .card-bg {
   width: 100%;
+  height: 100%;
   display: block;
+  object-fit: cover;
 }
 
 .card-back {
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 /* 正方形遮罩展开 */

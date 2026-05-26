@@ -78,8 +78,9 @@ function formatPopularity(n) {
 }
 
 .card-inner {
-  display: grid;
+  position: relative;
   width: 100%;
+  padding-bottom: 32.8%;
   transition: transform 0.5s ease;
   transform-style: preserve-3d;
 }
@@ -90,7 +91,11 @@ function formatPopularity(n) {
 
 .card-front,
 .card-back {
-  grid-area: 1 / 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   backface-visibility: hidden;
   border-radius: 12px;
   overflow: hidden;
@@ -102,7 +107,9 @@ function formatPopularity(n) {
 
 .card-bg {
   width: 100%;
+  height: 100%;
   display: block;
+  object-fit: cover;
 }
 
 .card-back {

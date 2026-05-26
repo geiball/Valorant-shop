@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db');
+const db = require('../db');
 
-router.get('/random', async (req, res) => {
+router.get('/random', (req, res) => {
   try {
-    const [rows] = await pool.query(
-      'SELECT * FROM skins ORDER BY RAND() LIMIT 4'
-    );
+    const rows = db.prepare('SELECT * FROM skins ORDER BY RANDOM() LIMIT 4').all();
     res.json({ skins: rows });
   } catch (err) {
     console.error('Failed to fetch random skins:', err);

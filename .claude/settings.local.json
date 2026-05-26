@@ -27,7 +27,17 @@
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:5173)",
       "Bash(curl *)",
-      "Bash(kill %1 %2)"
+      "Bash(kill %1 %2)",
+      "Bash(winget --version)",
+      "Bash(choco --version)",
+      "Bash(npm uninstall *)",
+      "Bash(pkill -f \"node server.js\")",
+      "Bash(node server.js)",
+      "Read(//tmp/**)",
+      "Bash(pkill -f \"node server\")",
+      "Bash(pkill -f \"node.*server\")",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //PID 19320 //F)"
     ]
   }
 }

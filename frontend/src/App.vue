@@ -8,7 +8,6 @@
         :key="i"
         :skin="skin"
         :generation="generation"
-        :delay="i * 0.12"
       />
     </div>
     <ActionButton

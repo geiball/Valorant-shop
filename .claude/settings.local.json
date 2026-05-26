@@ -11,7 +11,23 @@
       "Bash(pip install *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(mkdir -p \"C:/c语言作业/前端/每日商店/backend\")",
+      "Bash(npm init *)",
+      "Bash(mysql *)",
+      "Bash(node *)",
+      "Bash(sc query *)",
+      "Bash(where mysql *)",
+      "Bash(where mysqld *)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Read(//c//**)",
+      "Bash(where mariadb *)",
+      "Bash(npm create *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(curl *)",
+      "Bash(kill %1 %2)"
     ]
   }
 }

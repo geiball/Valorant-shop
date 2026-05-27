@@ -1,4 +1,11 @@
 {
+  "name": "valorant-shop",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter backend dev & pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "dev:frontend": "pnpm --filter frontend dev"
+  },
   "dependencies": {
     "playwright": "^1.60.0"
   }

@@ -5,16 +5,16 @@
       <span class="tab">王国商店</span>
     </div>
     <div class="countdown">
-      <span class="countdown-block">{{ hours }}时</span>
-      <span class="countdown-block">{{ minutes }}分</span>
-      <span class="countdown-block">{{ seconds }}秒</span>
+      <span class="countdown-block">{{ paddedHours }}时</span>
+      <span class="countdown-block">{{ paddedMinutes }}分</span>
+      <span class="countdown-block">{{ paddedSeconds }}秒</span>
       <span class="refresh-icon" @click="$emit('refresh')" :class="{ spinning: loading }">&#x21bb;</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 defineProps({
   loading: { type: Boolean, default: false },
@@ -22,29 +22,46 @@ defineProps({
 
 defineEmits(['refresh']);
 
-const hours = ref(15);
-const minutes = ref(56);
+const hours = ref(0);
+const minutes = ref(0);
 const seconds = ref(0);
+
+const paddedHours = computed(() => String(hours.value).padStart(2, '0'));
+const paddedMinutes = computed(() => String(minutes.value).padStart(2, '0'));
+const paddedSeconds = computed(() => String(seconds.value).padStart(2, '0'));
 
 let timer = null;
 
+function getNext8am() {
+  const now = new Date();
+  const target = new Date(now);
+  target.setHours(8, 0, 0, 0);
+  if (now >= target) {
+    target.setDate(target.getDate() + 1);
+  }
+  return target;
+}
+
+let targetTime = null;
+
+function updateCountdown() {
+  const now = Date.now();
+  let diff = targetTime - now;
+  if (diff <= 0) {
+    targetTime = new Date(targetTime);
+    targetTime.setDate(targetTime.getDate() + 1);
+    targetTime = targetTime.getTime();
+    diff = targetTime - now;
+  }
+  hours.value = Math.floor(diff / 3600000);
+  minutes.value = Math.floor((diff % 3600000) / 60000);
+  seconds.value = Math.floor((diff % 60000) / 1000);
+}
+
 onMounted(() => {
-  timer = setInterval(() => {
-    seconds.value--;
-    if (seconds.value < 0) {
-      seconds.value = 59;
-      minutes.value--;
-    }
-    if (minutes.value < 0) {
-      minutes.value = 59;
-      hours.value--;
-    }
-    if (hours.value < 0) {
-      hours.value = 23;
-      minutes.value = 59;
-      seconds.value = 59;
-    }
-  }, 1000);
+  targetTime = getNext8am().getTime();
+  updateCountdown();
+  timer = setInterval(updateCountdown, 1000);
 });
 
 onUnmounted(() => clearInterval(timer));

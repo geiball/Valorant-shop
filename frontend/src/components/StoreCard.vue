@@ -2,6 +2,7 @@
   <div
     ref="cardRef"
     class="store-card"
+    :class="{ flipped: flipped }"
     :style="cardStyle"
     @click="flip"
   >
@@ -116,12 +117,13 @@ function formatPopularity(n) {
 const phase = ref('idle');
 const spreadFull = ref(false);
 const isAnimating = ref(false);
+const flipped = ref(false);
 const cardRef = ref(null);
 
 let timers = [];
 
 function flip() {
-  if (isAnimating.value || !props.skin.id) return;
+  if (isAnimating.value || flipped.value || !props.skin.id) return;
   isAnimating.value = true;
   spreadFull.value = false;
 
@@ -145,6 +147,7 @@ function flip() {
   timers.push(setTimeout(() => {
     phase.value = 'display';
     isAnimating.value = false;
+    flipped.value = true;
   }, 1800));
 }
 
@@ -155,6 +158,7 @@ function resetCard() {
   phase.value = 'idle';
   spreadFull.value = false;
   isAnimating.value = false;
+  flipped.value = false;
 
   requestAnimationFrame(() => {
     cardRef.value?.classList.remove('no-transition');
@@ -183,6 +187,10 @@ onUnmounted(() => {
   overflow: hidden;
   cursor: pointer;
   margin-bottom: 10px;
+}
+
+.store-card.flipped {
+  cursor: default;
 }
 
 /* ---- reset helper ---- */
